@@ -1,0 +1,71 @@
+C51 COMPILER V9.53.0.0   9                                                                 12/23/2018 14:40:51 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE 9
+OBJECT MODULE PLACED IN 9.OBJ
+COMPILER INVOKED BY: E:\keil555\C51\BIN\C51.EXE 9.c LARGE OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <intrins.h>
+   3          #define uint unsigned int
+   4          #define uchar unsigned char
+   5          sbit wel1=P2^0;
+   6          sbit wel2=P2^1;
+   7          sbit wel3=P2^2;
+   8          sbit wel4=P2^3;
+   9          uchar code table9[]={0x05,0x05,0x05,0x05};
+  10          void delay_ms9(unsigned int ms)
+  11          {
+  12   1        unsigned char k;
+  13   1        while(ms--)
+  14   1        {
+  15   2          for (k=0;k<114;k++);
+  16   2        }
+  17   1      }
+  18          void display9()
+  19          {
+  20   1        wel1=0;
+  21   1        P0=table9[0];
+  22   1        delay_ms9(5);
+  23   1        wel1=1;
+  24   1        
+  25   1        wel2=0;
+  26   1        P0=table9[1];
+  27   1        delay_ms9(5);
+  28   1        wel2=1;
+  29   1      
+  30   1        wel3=0;
+  31   1        P0=table9[2];
+  32   1        delay_ms9(5);
+  33   1        wel3=1;
+  34   1        
+  35   1        wel4=0;
+  36   1        P0=table9[3];
+  37   1        delay_ms9(5);
+  38   1        wel4=1;
+  39   1      }
+  40          void k()
+  41          {
+  42   1        while(1)
+  43   1        {
+  44   2          display9();
+  45   2        }
+  46   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     68    ----
+   CONSTANT SIZE    =      4    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+C51 COMPILER V9.53.0.0   9                                                                 12/23/2018 14:40:51 PAGE 2   
+
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

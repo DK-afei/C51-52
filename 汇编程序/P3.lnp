@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"t3.obj" 
+TO "P3" 
+RAMSIZE(256) 

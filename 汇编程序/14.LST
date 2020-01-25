@@ -1,0 +1,116 @@
+C51 COMPILER V9.53.0.0   14                                                                12/23/2018 14:53:13 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE 14
+OBJECT MODULE PLACED IN 14.OBJ
+COMPILER INVOKED BY: E:\keil555\C51\BIN\C51.EXE 14.c LARGE OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1            #include <reg52.h>
+   2            #include <intrins.h>
+   3            unsigned char temp14;   
+   4          #define uint unsigned int
+   5          #define uchar unsigned char
+   6          sbit wel1=P2^0;
+   7          sbit wel2=P2^1;
+   8          sbit wel3=P2^2;
+   9          sbit wel4=P2^3;
+  10          uchar code table14[]={0xc0,0xf9,0xa4,0xb0,0x99,
+  11                              0x92,0x82,0xf8,0x80,0x90,
+  12                              0x88,0x83,0xc6,0xa1,0x86,0x8e};
+  13          uchar temp14=0x00;
+  14          uint flag14=0;
+  15          void delay_ms14(unsigned int ms)
+  16          {
+  17   1        unsigned char k;
+  18   1        while(ms--)
+  19   1        {
+  20   2          for (k=0;k<114;k++);
+  21   2        }
+  22   1      }
+  23          void display14(uint k)
+  24          {
+  25   1        uchar a,b,c,d;
+  26   1        a=k/(16*16*16);
+  27   1        b=k/(16*16)%16;
+  28   1        c=k/16%16;
+  29   1        d=k%16;
+  30   1        
+  31   1        wel1=0;
+  32   1        P0=table14[a];
+  33   1        delay_ms14(5);
+  34   1        wel1=1;
+  35   1      
+  36   1        
+  37   1        wel2=0;
+  38   1        P0=table14[b];
+  39   1        delay_ms14(5);
+  40   1        wel2=1;
+  41   1        
+  42   1        
+  43   1        wel3=0;
+  44   1        P0=table14[c];
+  45   1        delay_ms14(5);
+  46   1        wel3=1;
+  47   1        
+  48   1        wel4=0;
+  49   1        P0=table14[d];
+  50   1        delay_ms14(5);
+  51   1        wel4=1;
+  52   1      
+  53   1      }
+  54          
+  55            void q()
+C51 COMPILER V9.53.0.0   14                                                                12/23/2018 14:53:13 PAGE 2   
+
+  56            {
+  57   1          SM0=0;
+  58   1          SM1=1;
+  59   1          REN=1;
+  60   1          PCON=0x00;
+  61   1          TMOD=0x20;
+  62   1          TH1=250;
+  63   1          TL1=250;
+  64   1          TR1=1;
+  65   1          ES=1;
+  66   1          EA=1;
+  67   1          while(1)
+  68   1          {
+  69   2              display14(temp14*16*16+SBUF);
+  70   2              flag14=1;
+  71   2          }
+  72   1        } 
+  73              
+  74              void T1_() interrupt 4
+  75              {
+  76   1            if(TI)
+  77   1            {
+  78   2              
+  79   2              TI=0;
+  80   2            }
+  81   1            else
+  82   1            {
+  83   2              if(flag14==1)
+  84   2              {
+  85   3                temp14=SBUF;
+  86   3                flag14=0;
+  87   3              }
+  88   2              RI=0;
+  89   2        
+  90   2            }
+  91   1          }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    201    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =      3    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

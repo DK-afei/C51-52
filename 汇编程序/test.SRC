@@ -1,0 +1,253 @@
+; .\test.SRC generated from: test.c
+; COMPILER INVOKED BY:
+;        E:\keil555\C51\BIN\C51.EXE test.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE TABS(2) SRC(.\test.SRC)
+
+$NOMOD51
+
+NAME	TEST
+
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+T2	BIT	090H.0
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+EXF2	BIT	0C8H.6
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+RCAP2H	DATA	0CBH
+PS	BIT	0B8H.4
+SP	DATA	081H
+T2EX	BIT	090H.1
+OV	BIT	0D0H.2
+RCAP2L	DATA	0CAH
+C_T2	BIT	0C8H.1
+WR	BIT	0B0H.6
+RCLK	BIT	0C8H.5
+Beep1	BIT	0A0H.4
+TCLK	BIT	0C8H.4
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+CP_RL2	BIT	0C8H.0
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+ET2	BIT	0A8H.5
+TF1	BIT	088H.7
+TF2	BIT	0C8H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+TH2	DATA	0CDH
+P	BIT	0D0H.0
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+TL2	DATA	0CCH
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+PT2	BIT	0B8H.5
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+TR2	BIT	0C8H.2
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+DPL	DATA	082H
+EXEN2	BIT	0C8H.3
+REN	BIT	098H.4
+T2CON	DATA	0C8H
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+F0	BIT	0D0H.5
+PSW	DATA	0D0H
+?PR?_delay_ms1?TEST  SEGMENT CODE 
+?PR?a?TEST           SEGMENT CODE 
+	PUBLIC	a?
+	PUBLIC	_delay_ms1
+; #include <reg52.h>
+; #include <intrins.h>
+; sbit Beep1=P2^4;
+; void delay_ms1(unsigned int z)
+
+	RSEG  ?PR?_delay_ms1?TEST
+L?0020:
+	USING	0
+L?0021:
+	MOV  	R7,#064H
+	MOV  	R6,#00H
+_delay_ms1:
+	USING	0
+			; SOURCE LINE # 4
+;---- Variable 'z?040' assigned to Register 'R6/R7' ----
+; {
+			; SOURCE LINE # 5
+?C0001:
+; 	unsigned char i,j;
+; 	while(--z)
+			; SOURCE LINE # 7
+	MOV  	A,R7
+	DEC  	R7
+	JNZ  	?C0018
+	DEC  	R6
+?C0018:
+	DEC  	A
+	ORL  	A,R6
+	JZ   	?C0008
+; 	{
+			; SOURCE LINE # 8
+; 		_nop_();
+			; SOURCE LINE # 9
+	NOP  	
+; 		i=2;
+			; SOURCE LINE # 10
+;---- Variable 'i?041' assigned to Register 'R5' ----
+	MOV  	R5,#02H
+; 		j=199;
+			; SOURCE LINE # 11
+;---- Variable 'j?042' assigned to Register 'R4' ----
+	MOV  	R4,#0C7H
+; 		do
+; 		{
+			; SOURCE LINE # 13
+?C0006:
+; 			while(--j);
+			; SOURCE LINE # 14
+	DJNZ 	R4,?C0006
+?C0007:
+; 		}while(--i);
+			; SOURCE LINE # 15
+?C0003:
+	DJNZ 	R5,?C0006
+; 	}
+			; SOURCE LINE # 16
+	SJMP 	?C0001
+; }
+			; SOURCE LINE # 17
+?C0008:
+	RET  	
+; END OF _delay_ms1
+
+; void a()
+
+	RSEG  ?PR?a?TEST
+a:
+	USING	0
+			; SOURCE LINE # 18
+; {
+			; SOURCE LINE # 19
+; 	int m=0,n=0;
+			; SOURCE LINE # 20
+;---- Variable 'm?143' assigned to Register 'R2/R3' ----
+	CLR  	A
+	MOV  	R3,A
+	MOV  	R2,A
+;---- Variable 'n?144' assigned to Register 'DPTR' ----
+	MOV  	DPL,A
+	MOV  	DPH,A
+; 	P0=0xff;
+			; SOURCE LINE # 21
+	MOV  	P0,#0FFH
+?C0009:
+; 	while(1)
+			; SOURCE LINE # 22
+; 	{
+			; SOURCE LINE # 23
+; 		P0=0xaa;
+			; SOURCE LINE # 24
+	MOV  	P0,#0AAH
+; 		delay_ms1(100);
+			; SOURCE LINE # 25
+	LCALL	L?0020
+; 		P0=0x55;
+			; SOURCE LINE # 26
+	MOV  	P0,#055H
+; 		delay_ms1(100);
+			; SOURCE LINE # 27
+	LCALL	L?0020
+; 		Beep1=0;
+			; SOURCE LINE # 28
+	CLR  	Beep1
+; 		delay_ms1(100);
+			; SOURCE LINE # 29
+	LCALL	L?0021
+; 		Beep1=1;
+			; SOURCE LINE # 30
+	SETB 	Beep1
+; 		delay_ms1(100);
+			; SOURCE LINE # 31
+	LCALL	L?0021
+; 		m++;
+			; SOURCE LINE # 32
+	INC  	R3
+	CJNE 	R3,#00H,?C0019
+	INC  	R2
+?C0019:
+; 		if(m==3)
+			; SOURCE LINE # 33
+	MOV  	A,R3
+	XRL  	A,#03H
+	ORL  	A,R2
+	JNZ  	?C0009
+?C0012:
+; 			while(1)
+			; SOURCE LINE # 34
+; 			{
+			; SOURCE LINE # 35
+; 					P0=0x00;
+			; SOURCE LINE # 36
+	CLR  	A
+	MOV  	P0,A
+; 					delay_ms1(100);
+			; SOURCE LINE # 37
+	MOV  	R7,#064H
+	MOV  	R6,A
+	LCALL	_delay_ms1
+; 					P0=0xff;
+			; SOURCE LINE # 38
+	MOV  	P0,#0FFH
+; 					delay_ms1(100);
+			; SOURCE LINE # 39
+	LCALL	L?0021
+; 					n++;
+			; SOURCE LINE # 40
+	INC  	DPTR
+; 					if(n==3)
+			; SOURCE LINE # 41
+	MOV  	A,DPL
+	XRL  	A,#03H
+	ORL  	A,DPH
+	JNZ  	?C0012
+?C0015:
+; 					while(1);
+			; SOURCE LINE # 42
+	SJMP 	?C0015
+; END OF a
+
+	END

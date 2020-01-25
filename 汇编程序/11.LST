@@ -1,0 +1,117 @@
+C51 COMPILER V9.53.0.0   11                                                                12/23/2018 14:40:53 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE 11
+OBJECT MODULE PLACED IN 11.OBJ
+COMPILER INVOKED BY: E:\keil555\C51\BIN\C51.EXE 11.c LARGE OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          
+   2          #include <reg52.h>
+   3          #include <intrins.h>
+   4          #define uint unsigned int
+   5          #define uchar unsigned char
+   6          sbit wel1=P2^0;
+   7          sbit wel2=P2^1;
+   8          sbit wel3=P2^2;
+   9          sbit wel4=P2^3;
+  10          uchar code table11[]={0xc0,0xf9,0xa4,0xb0,0x99,
+  11                              0x92,0x82,0xf8,0x80,0x90};
+  12          void delay_ms11(unsigned int ms)
+  13          {
+  14   1        unsigned char k;
+  15   1        while(ms--)
+  16   1        {
+  17   2          for (k=0;k<114;k++);
+  18   2        }
+  19   1      }
+  20          void display11(uint k)
+  21          {
+  22   1        uchar a,b,c,d;
+  23   1        a=k/1000;
+  24   1        b=k/100%10;
+  25   1        c=k/10%10;
+  26   1        d=k%10;
+  27   1        
+  28   1        wel1=0;
+  29   1        P0=table11[a];
+  30   1        delay_ms11(5);
+  31   1        wel1=1;
+  32   1        
+  33   1        
+  34   1        wel2=0;
+  35   1        P0=table11[b];
+  36   1        delay_ms11(5);
+  37   1        wel2=1;
+  38   1        
+  39   1        
+  40   1        wel3=0;
+  41   1        P0=table11[c];
+  42   1        delay_ms11(5);
+  43   1        wel3=1;
+  44   1        
+  45   1        
+  46   1        wel4=0;
+  47   1        P0=table11[d];
+  48   1        delay_ms11(5);
+  49   1        wel4=1;
+  50   1        
+  51   1      }
+  52          uchar KeyScan11()
+  53          {
+  54   1        uchar temh,teml,key;
+  55   1        P1=0xf0;
+C51 COMPILER V9.53.0.0   11                                                                12/23/2018 14:40:53 PAGE 2   
+
+  56   1        temh=P1;
+  57   1        P1=0x0f;
+  58   1        teml=P1;
+  59   1        switch(temh)
+  60   1        {
+  61   2          case 0xe0:key=1;break;
+  62   2          case 0xd0:key=2;break;
+  63   2          case 0xb0:key=3;break;
+  64   2          case 0x70:key=4;break;
+  65   2          default: return 0;
+  66   2        }
+  67   1        switch(teml)
+  68   1        {
+  69   2          case 0x0e: return key;
+  70   2          case 0x0d: return key+4;
+  71   2          case 0x0b: return key+8;
+  72   2          case 0x07: return key+12;
+  73   2          default:return 0;
+  74   2        }
+  75   1      }
+  76          void m()
+  77          {
+  78   1        uchar result,temp=0x00;
+  79   1        while(1)
+  80   1        {
+  81   2          result = KeyScan11();
+  82   2          if(result!=0)
+  83   2          {
+  84   3            display11(temp*temp);
+  85   3            temp=result;
+  86   3          }
+  87   2          else
+  88   2          {
+  89   3            display11(temp*temp);
+  90   3          }
+  91   2        }
+  92   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    292    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----       5
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

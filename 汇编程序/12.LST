@@ -1,0 +1,137 @@
+C51 COMPILER V9.53.0.0   12                                                                12/23/2018 14:40:53 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE 12
+OBJECT MODULE PLACED IN 12.OBJ
+COMPILER INVOKED BY: E:\keil555\C51\BIN\C51.EXE 12.c LARGE OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1            #include <reg52.h>
+   2            typedef unsigned char uchar;
+   3            typedef unsigned int uint;
+   4            sbit w1=P2^0;
+   5            sbit w2=P2^1;
+   6            sbit w3=P2^2;
+   7            sbit w4=P2^3;
+   8            uchar Count,Sec,shift,n12,m12=0;
+   9            uchar code LEDData[]={0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90,0xff};
+  10            uchar data display120[2];
+  11            char code reserve[3] _at_ 0x3b;
+  12            void delay_ms12(uint ms)
+  13            {
+  14   1          uchar k;
+  15   1          while(ms--)
+  16   1          {
+  17   2            for(k=0;k<114;k++);
+  18   2          }
+  19   1        }
+  20            void display12(uint k)
+  21            {
+  22   1          uchar a,b;
+  23   1          a=k/10;
+  24   1          b=k%10;
+  25   1          
+  26   1          w1=0;
+  27   1          P0=LEDData[a];
+  28   1          delay_ms12(5);
+  29   1          w1=1;
+  30   1          
+  31   1          w2=0;
+  32   1          P0=LEDData[b];
+  33   1          delay_ms12(5);
+  34   1          w2=1;
+  35   1            w3=1;
+  36   1            w4=1;
+  37   1          
+  38   1        }
+  39            void o()
+  40            {
+  41   1          P0=0xff;
+  42   1          P2=0xff;
+  43   1          Count=0x00;
+  44   1          Sec=0x00;
+  45   1          n12=0x00;
+  46   1          shift=0xfe;
+  47   1          
+  48   1          TMOD=0x01;
+  49   1          TH0=0x4c;
+  50   1          TL0=0x00;
+  51   1          ET0=1;
+  52   1          
+  53   1          T2CON=0x00;
+  54   1          TH2=0xf8;
+  55   1          TL2=0xcc;
+C51 COMPILER V9.53.0.0   12                                                                12/23/2018 14:40:53 PAGE 2   
+
+  56   1          ET2=1;
+  57   1          EA=1;
+  58   1          TR2=1;
+  59   1          TR0=1;
+  60   1          while(1)
+  61   1          {
+  62   2              display12(m12);
+  63   2          };
+  64   1        }
+  65            
+  66            
+  67            void Time0() interrupt 1
+  68            {
+  69   1          TH0=0x4c;
+  70   1          TL0=0x00;
+  71   1          ++Count;
+  72   1          if(Count==20)
+  73   1          {
+  74   2            Count=0;
+  75   2            ++Sec;
+  76   2            if(Sec==60)
+  77   2            {
+  78   3              Sec=0;
+  79   3              m12++;
+  80   3              if(m12==60)
+  81   3                m12=0;
+  82   3            }
+  83   2          }
+  84   1        }
+  85            
+  86            
+  87            void time2() interrupt 5
+  88            {
+  89   1          TR2=0;
+  90   1          TF2=0;
+  91   1          TH2=0xf8;
+  92   1          TL2=0xcc;
+  93   1          
+  94   1          if(n12>=2)
+  95   1          {
+  96   2            n12=0;
+  97   2            shift=0xf7;
+  98   2            P2=0xff;
+  99   2          }
+ 100   1          else
+ 101   1          {
+ 102   2            display120[0]=Sec%10;
+ 103   2            display120[1]=Sec/10;
+ 104   2            
+ 105   2            P0=LEDData[display120[n12++]];
+ 106   2            P2=shift;
+ 107   2            shift=(shift>>1)|0x80;
+ 108   2          }
+ 109   1          TR2=1;
+ 110   1        }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    319    ----
+   CONSTANT SIZE    =     11    ----
+   XDATA SIZE       =      5       1
+   PDATA SIZE       =   ----    ----
+C51 COMPILER V9.53.0.0   12                                                                12/23/2018 14:40:53 PAGE 3   
+
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

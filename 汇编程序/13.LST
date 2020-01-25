@@ -1,0 +1,111 @@
+C51 COMPILER V9.53.0.0   13                                                                12/23/2018 14:53:18 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE 13
+OBJECT MODULE PLACED IN 13.OBJ
+COMPILER INVOKED BY: E:\keil555\C51\BIN\C51.EXE 13.c LARGE OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <intrins.h>
+   3          
+   4            #define uint unsigned int
+   5            #define uchar unsigned char
+   6          sbit wel1=P2^0;
+   7          sbit wel2=P2^1;
+   8          sbit wel3=P2^2;
+   9          sbit wel4=P2^3;
+  10          sbit Beep13=P2^4;
+  11            uchar code table13[]={0xc0,0xf9,0xa4,0xb0,0x99,
+  12                              0x92,0x82,0xf8,0x80,0x90};
+  13              uint n13=0;
+  14            
+  15              void delay_ms13(unsigned int ms)
+  16          {
+  17   1        unsigned char k;
+  18   1        while(ms--)
+  19   1        {
+  20   2          for (k=0;k<114;k++);
+  21   2        }
+  22   1      }
+  23          void display13(uint k)
+  24          {
+  25   1        uchar a,b,c,d;
+  26   1        a=k/1000;
+  27   1        b=k/100%10;
+  28   1        c=k/10%10;
+  29   1        d=k%10;
+  30   1        
+  31   1        wel1=0;
+  32   1        P0=table13[a];
+  33   1        delay_ms13(5);
+  34   1        wel1=1;
+  35   1        
+  36   1        wel2=0;
+  37   1        P0=table13[b];
+  38   1        delay_ms13(5);
+  39   1        wel2=1;
+  40   1        
+  41   1        
+  42   1        wel3=0;
+  43   1        P0=table13[c];
+  44   1        delay_ms13(5);
+  45   1        wel3=1;
+  46   1        
+  47   1        
+  48   1        wel4=0;
+  49   1        P0=table13[d];
+  50   1        delay_ms13(5);
+  51   1        wel4=1;
+  52   1        
+  53   1      }
+  54            void p()
+  55            {
+C51 COMPILER V9.53.0.0   13                                                                12/23/2018 14:53:18 PAGE 2   
+
+  56   1          int i;
+  57   1          EA=1;
+  58   1          EX0=1;
+  59   1          IT0=0;
+  60   1          while(1)
+  61   1          {
+  62   2            for(i=0;i++;i<15)
+  63   2            display13(n13);
+  64   2            delay_ms13(0);
+  65   2            n13++;
+  66   2          }
+  67   1        }
+  68            
+  69            void exter0() interrupt 0
+  70            {
+  71   1            int i;
+  72   1            while(1)
+  73   1            {   
+  74   2              for(i=0;i++;i<15)
+  75   2              display13(n13);
+  76   2              if(n13==0)
+  77   2              {
+  78   3                  Beep13=0;
+  79   3                  delay_ms13(500);
+  80   3                  Beep13=1;
+  81   3                  break;
+  82   3              }
+  83   2              delay_ms13(0);
+  84   2              n13--;
+  85   2            }
+  86   1        }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    330    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =      2       7
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

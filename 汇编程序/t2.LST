@@ -1,0 +1,1031 @@
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE T2
+OBJECT MODULE PLACED IN t2.OBJ
+COMPILER INVOKED BY: E:\keil555\C51\BIN\C51.EXE t2.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE TABS(2)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <mouse.h>
+   3          //延时函数
+   4          void delay_ms(uint ms)
+   5          {
+   6   1        uchar k;
+   7   1        while(ms--)
+   8   1        {
+   9   2          for(k=0;k<114;k++);
+  10   2        }
+  11   1      }
+  12          //左数码管显示
+  13          void T_1(uchar c)
+  14          {
+  15   1        
+  16   1        s1=1;
+  17   1        s2=0;
+  18   1        P0=t[c];
+  19   1        delay_ms(5);
+  20   1      }
+  21          //右数码管显示
+  22          void T_2(uchar c)
+  23          {
+  24   1        s1=0;
+  25   1        s2=1;
+  26   1        P0=t[c];
+  27   1        delay_ms(5);
+  28   1      }
+  29          /*//栈初始化
+  30          uint init_s() {
+  31            for (i = 0; i < MAXSIZE; i++) {
+  32              for (j = 0; j < 3; j++) {
+  33                s.coord[i][j] = 0;
+  34              }
+  35            }
+  36            s.top = s.bottom = -1;
+  37            return 1;
+  38          }
+  39          //判断栈是否空
+  40          uint empty() {
+  41            if (s.top == s.bottom) {
+  42              return 0;
+  43            }
+  44            else {
+  45              return 1;
+  46            }
+  47          }
+  48          //入栈
+  49          uint push(uint c[3]) {
+  50            s.top++;
+  51            if (s.top >= MAXSIZE) {
+  52              s.top--;
+  53              return 0;
+  54            }
+  55          for (i = 0; i < 3; i++) {
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 2   
+
+  56              s.coord[s.top][i] = c[i];
+  57            }
+  58            return 1;
+  59          }
+  60          //出栈
+  61          uint pop(uint b[3]) {
+  62            if (empty() == 0) {
+  63              return 0;
+  64            }
+  65            else {
+  66              for (i = 0; i < 3; i++) {
+  67                b[i] = s.coord[s.top][i];
+  68              }
+  69              s.top--;
+  70              return 1;
+  71            }
+  72          }*/
+  73          
+  74          //右转
+  75          void tr()
+  76          {
+  77   1        for(j=0;j<49;j++)
+  78   1        {
+  79   2          for(i=0;i<8;i++)
+  80   2          {
+  81   3            P1=forward[i];
+  82   3            delay_ms(3);
+  83   3          }
+  84   2        }
+  85   1        delay_ms(50);
+  86   1        nf1=(nf1+ef2)%4;
+  87   1        ef1=(ef1+ef2)%4;
+  88   1        sf1=(sf1+ef2)%4;
+  89   1        wf1=(wf1+ef2)%4;
+  90   1        
+  91   1      }
+  92          //左转
+  93          void tl()
+  94          {
+  95   1        for(j=0;j<49;j++)
+  96   1        {
+  97   2          for(i=0;i<8;i++)
+  98   2          {
+  99   3            P1=reverse[i];
+ 100   3            delay_ms(3);
+ 101   3          }
+ 102   2        }
+ 103   1        delay_ms(50);
+ 104   1        nf1=(nf1+wf2)%4;
+ 105   1        ef1=(ef1+wf2)%4;
+ 106   1        sf1=(sf1+wf2)%4;
+ 107   1        wf1=(wf1+wf2)%4;
+ 108   1      }
+ 109          //回转
+ 110          void r180 ()
+ 111          {
+ 112   1        for(j=0;j<98;j++)
+ 113   1        {
+ 114   2          for(i=0;i<8;i++)
+ 115   2          {
+ 116   3            P1=reverse[i];
+ 117   3            delay_ms(3);
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 3   
+
+ 118   3          }
+ 119   2        }
+ 120   1        delay_ms(50);
+ 121   1        nf1=(nf1+sf2)%4;
+ 122   1        ef1=(ef1+sf2)%4;
+ 123   1        sf1=(sf1+sf2)%4;
+ 124   1        wf1=(wf1+sf2)%4;
+ 125   1      }
+ 126          //左电机正转,左偏右调
+ 127          void RM()
+ 128          {
+ 129   1          for(j=0;j<1;j++)
+ 130   1          {
+ 131   2            for(i=0;i<8;i++)
+ 132   2            {
+ 133   3              P1=(forward[i]|0xf0);
+ 134   3              delay_ms(3);
+ 135   3            }
+ 136   2          }
+ 137   1      }
+ 138          //右电机正转，右偏左调
+ 139          void LM()
+ 140          {
+ 141   1          for(j=0;j<1;j++)
+ 142   1        {
+ 143   2          for(i=0;i<8;i++)
+ 144   2          {
+ 145   3            P1=(reverse[i]|0x0f);
+ 146   3            delay_ms(3);
+ 147   3          }
+ 148   2        }
+ 149   1      }
+ 150          //直走一格
+ 151          void gf()
+ 152           {
+ 153   1        for(j=0;j<110;j++)
+ 154   1        {
+ 155   2          if(irLU && !irC)
+ 156   2          {
+ 157   3            while(irLU && !irC){
+ 158   4            RM();
+ 159   4            j++;}
+ 160   3          }
+ 161   2          else if(irRU && !irC)
+ 162   2          {
+ 163   3            while(irRU && !irC){
+ 164   4            LM();
+ 165   4            j++;}
+ 166   3          }
+ 167   2          else
+ 168   2          for(i=0;i<8;i++)
+ 169   2          {
+ 170   3            P1=f[i];
+ 171   3            delay_ms(2);
+ 172   3          }
+ 173   2        }
+ 174   1        if(nf1==0)
+ 175   1          y++;
+ 176   1        if(nf1==1)
+ 177   1          x++;
+ 178   1        if(nf1==2)
+ 179   1          y--;
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 4   
+
+ 180   1        if(nf1==3)
+ 181   1          x--;
+ 182   1        delay_ms(200);
+ 183   1      }
+ 184          
+ 185          void setTime2(uint us)
+ 186          {
+ 187   1        TH2=(65535-us)/256;
+ 188   1        RCAP2H=(65536-us)/256;
+ 189   1        TL2=(65536-us)%256;
+ 190   1        RCAP2L=(65536-us)%256;
+ 191   1      }
+ 192          void initTime2()
+ 193          {
+ 194   1        EA=1;
+ 195   1        ET2=1;
+ 196   1        setTime2(5000);
+ 197   1        TR2=1;
+ 198   1      }
+ 199          void main()
+ 200          {
+ 201   1        initTime2();
+ 202   1        //init_s();
+ 203   1        while(1)
+ 204   1        {
+ 205   2            //T_1(x);
+ 206   2            //T_2(y);
+ 207   2            
+ 208   2            //T_1(x);
+ 209   2            //T_2(y);
+ 210   2            /*  gf();
+ 211   2              if(irL == 1 && irC == 1 && irR == 0)
+ 212   2                tr();
+ 213   2              if(irL == 0 && irC == 1 && irR == 1)
+ 214   2                tl();
+ 215   2              if(irL == 1 && irC == 1 && irR == 1)
+ 216   2              {
+ 217   2                r180();
+ 218   2              }
+ 219   2              if(x==0&&y==0)
+ 220   2              {
+ 221   2                beep=0;
+ 222   2                while(1);
+ 223   2              }*/
+ 224   2                
+ 225   2              gf();
+ 226   2                if(irR == 0)
+ 227   2              {
+ 228   3                tr();
+ 229   3              }
+ 230   2              if(irL == 0 && irC == 1 && irR == 1)
+ 231   2                tl();
+ 232   2              if(irL == 1 && irC == 1 && irR == 1)
+ 233   2              {
+ 234   3                r180();
+ 235   3              }
+ 236   2            if(x==7&&y==0)
+ 237   2            while(1)
+ 238   2            {
+ 239   3              
+ 240   3               gf();
+ 241   3              if(irL == 0)
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 5   
+
+ 242   3              {
+ 243   4                tl();
+ 244   4              }
+ 245   3              if(irL == 1 && irC == 1 && irR == 0)
+ 246   3                tr();
+ 247   3              if(irL == 1 && irC == 1 && irR == 1)
+ 248   3              {
+ 249   4                r180();
+ 250   4              }
+ 251   3                if(x==0&&y==0)
+ 252   3                  while(1){beep=0;while(1);}
+ 253   3            }
+ 254   2        }
+ 255   1      }
+ 256          void time2() interrupt 5
+ 257          {
+ 258   1        static bit ir=0;
+ 259   1        TF2=0;
+ 260   1        if(!ir)
+ 261   1          MOUSE_IR_ON(a);
+ 262   1        else
+ 263   1        {
+ 264   2          switch(a++)
+ 265   2          {
+ 266   3            case 0: if(!irR1)irC=1;else irC=0;break;
+ 267   3            case 1: if(!irR2)irLU=1;else irLU=0;break;
+ 268   3            case 2: if(!irR3)irL=1;else irL=0;break;
+ 269   3            case 3: if(!irR4)irR=1;else irR=0;break;
+ 270   3            case 4: if(!irR5)irRU=1;else irRU=0;break;
+ 271   3            default:a=0;break;
+ 272   3          }
+ 273   2        }
+ 274   1        ir=~ir;
+ 275   1      }
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 6   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION L?0106 (BEGIN)
+0000 900000      R     MOV     DPTR,#reverse
+0003         L?0107:
+0003 E500        R     MOV     A,i
+0005 93                MOVC    A,@A+DPTR
+0006         L?0108:
+0006 F590              MOV     P1,A
+0008 7F03              MOV     R7,#03H
+000A 7E00              MOV     R6,#00H
+             ; FUNCTION _delay_ms (BEGIN)
+                                           ; SOURCE LINE # 4
+;---- Variable 'k' assigned to Register 'R5' ----
+;---- Variable 'ms' assigned to Register 'R6/R7' ----
+                                           ; SOURCE LINE # 5
+000C         ?C0001:
+                                           ; SOURCE LINE # 7
+000C EF                MOV     A,R7
+000D 1F                DEC     R7
+000E AA06              MOV     R2,AR6
+0010 7001              JNZ     ?C0105
+0012 1E                DEC     R6
+0013         ?C0105:
+0013 4A                ORL     A,R2
+0014 600B              JZ      ?C0006
+                                           ; SOURCE LINE # 8
+                                           ; SOURCE LINE # 9
+0016 E4                CLR     A
+0017 FD                MOV     R5,A
+0018         ?C0003:
+0018 ED                MOV     A,R5
+0019 C3                CLR     C
+001A 9472              SUBB    A,#072H
+001C 50EE              JNC     ?C0001
+001E 0D                INC     R5
+001F 80F7              SJMP    ?C0003
+                                           ; SOURCE LINE # 10
+                                           ; SOURCE LINE # 11
+0021         ?C0006:
+0021 22                RET     
+             ; FUNCTION _delay_ms (END)
+
+             ; FUNCTION _T_1 (BEGIN)
+                                           ; SOURCE LINE # 13
+;---- Variable 'c' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 14
+                                           ; SOURCE LINE # 16
+0000 D2EB              SETB    s1
+                                           ; SOURCE LINE # 17
+0002 C2EA              CLR     s2
+                                           ; SOURCE LINE # 18
+0004 EF                MOV     A,R7
+0005 900000      R     MOV     DPTR,#t
+0008 93                MOVC    A,@A+DPTR
+0009 F580              MOV     P0,A
+                                           ; SOURCE LINE # 19
+000B 7F05              MOV     R7,#05H
+000D 7E00              MOV     R6,#00H
+000F 020000      R     LJMP    _delay_ms
+             ; FUNCTION _T_1 (END)
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 7   
+
+
+             ; FUNCTION _T_2 (BEGIN)
+                                           ; SOURCE LINE # 22
+;---- Variable 'c' assigned to Register 'R7' ----
+                                           ; SOURCE LINE # 23
+                                           ; SOURCE LINE # 24
+0000 C2EB              CLR     s1
+                                           ; SOURCE LINE # 25
+0002 D2EA              SETB    s2
+                                           ; SOURCE LINE # 26
+0004 EF                MOV     A,R7
+0005 900000      R     MOV     DPTR,#t
+0008 93                MOVC    A,@A+DPTR
+0009 F580              MOV     P0,A
+                                           ; SOURCE LINE # 27
+000B 7F05              MOV     R7,#05H
+000D 7E00              MOV     R6,#00H
+000F 020000      R     LJMP    _delay_ms
+             ; FUNCTION _T_2 (END)
+
+             ; FUNCTION tr (BEGIN)
+                                           ; SOURCE LINE # 75
+                                           ; SOURCE LINE # 76
+                                           ; SOURCE LINE # 77
+0000 E4                CLR     A
+0001 F500        R     MOV     j,A
+0003         ?C0009:
+                                           ; SOURCE LINE # 78
+                                           ; SOURCE LINE # 79
+0003 E4                CLR     A
+0004 F500        R     MOV     i,A
+0006         ?C0012:
+                                           ; SOURCE LINE # 80
+                                           ; SOURCE LINE # 81
+0006 900000      R     MOV     DPTR,#forward
+                                           ; SOURCE LINE # 82
+0009 120000      R     LCALL   L?0107
+                                           ; SOURCE LINE # 83
+000C 0500        R     INC     i
+000E E500        R     MOV     A,i
+0010 C3                CLR     C
+0011 9408              SUBB    A,#08H
+0013 40F1              JC      ?C0012
+                                           ; SOURCE LINE # 84
+0015         ?C0011:
+0015 0500        R     INC     j
+0017 E500        R     MOV     A,j
+0019 C3                CLR     C
+001A 9431              SUBB    A,#031H
+001C 40E5              JC      ?C0009
+001E         ?C0010:
+                                           ; SOURCE LINE # 85
+001E 7F32              MOV     R7,#032H
+0020 7E00              MOV     R6,#00H
+0022 120000      R     LCALL   _delay_ms
+                                           ; SOURCE LINE # 86
+0025 E500        R     MOV     A,nf1
+0027 2500        R     ADD     A,ef2
+0029 5403              ANL     A,#03H
+002B F500        R     MOV     nf1,A
+                                           ; SOURCE LINE # 87
+002D E500        R     MOV     A,ef1
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 8   
+
+002F 2500        R     ADD     A,ef2
+0031 5403              ANL     A,#03H
+0033 F500        R     MOV     ef1,A
+                                           ; SOURCE LINE # 88
+0035 E500        R     MOV     A,sf1
+0037 2500        R     ADD     A,ef2
+0039 5403              ANL     A,#03H
+003B F500        R     MOV     sf1,A
+                                           ; SOURCE LINE # 89
+003D E500        R     MOV     A,wf1
+003F 2500        R     ADD     A,ef2
+0041 5403              ANL     A,#03H
+0043 F500        R     MOV     wf1,A
+                                           ; SOURCE LINE # 91
+0045 22                RET     
+             ; FUNCTION tr (END)
+
+             ; FUNCTION tl (BEGIN)
+                                           ; SOURCE LINE # 93
+                                           ; SOURCE LINE # 94
+                                           ; SOURCE LINE # 95
+0000 E4                CLR     A
+0001 F500        R     MOV     j,A
+0003         ?C0016:
+                                           ; SOURCE LINE # 96
+                                           ; SOURCE LINE # 97
+0003 E4                CLR     A
+0004 F500        R     MOV     i,A
+0006         ?C0019:
+                                           ; SOURCE LINE # 98
+                                           ; SOURCE LINE # 99
+                                           ; SOURCE LINE # 100
+0006 120000      R     LCALL   L?0106
+                                           ; SOURCE LINE # 101
+0009 0500        R     INC     i
+000B E500        R     MOV     A,i
+000D C3                CLR     C
+000E 9408              SUBB    A,#08H
+0010 40F4              JC      ?C0019
+                                           ; SOURCE LINE # 102
+0012         ?C0018:
+0012 0500        R     INC     j
+0014 E500        R     MOV     A,j
+0016 C3                CLR     C
+0017 9431              SUBB    A,#031H
+0019 40E8              JC      ?C0016
+001B         ?C0017:
+                                           ; SOURCE LINE # 103
+001B 7F32              MOV     R7,#032H
+001D 7E00              MOV     R6,#00H
+001F 120000      R     LCALL   _delay_ms
+                                           ; SOURCE LINE # 104
+0022 E500        R     MOV     A,nf1
+0024 2500        R     ADD     A,wf2
+0026 5403              ANL     A,#03H
+0028 F500        R     MOV     nf1,A
+                                           ; SOURCE LINE # 105
+002A E500        R     MOV     A,ef1
+002C 2500        R     ADD     A,wf2
+002E 5403              ANL     A,#03H
+0030 F500        R     MOV     ef1,A
+                                           ; SOURCE LINE # 106
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 9   
+
+0032 E500        R     MOV     A,sf1
+0034 2500        R     ADD     A,wf2
+0036 5403              ANL     A,#03H
+0038 F500        R     MOV     sf1,A
+                                           ; SOURCE LINE # 107
+003A E500        R     MOV     A,wf1
+003C 2500        R     ADD     A,wf2
+003E 5403              ANL     A,#03H
+0040 F500        R     MOV     wf1,A
+                                           ; SOURCE LINE # 108
+0042 22                RET     
+             ; FUNCTION tl (END)
+
+             ; FUNCTION r180 (BEGIN)
+                                           ; SOURCE LINE # 110
+                                           ; SOURCE LINE # 111
+                                           ; SOURCE LINE # 112
+0000 E4                CLR     A
+0001 F500        R     MOV     j,A
+0003         ?C0023:
+                                           ; SOURCE LINE # 113
+                                           ; SOURCE LINE # 114
+0003 E4                CLR     A
+0004 F500        R     MOV     i,A
+0006         ?C0026:
+                                           ; SOURCE LINE # 115
+                                           ; SOURCE LINE # 116
+                                           ; SOURCE LINE # 117
+0006 120000      R     LCALL   L?0106
+                                           ; SOURCE LINE # 118
+0009 0500        R     INC     i
+000B E500        R     MOV     A,i
+000D C3                CLR     C
+000E 9408              SUBB    A,#08H
+0010 40F4              JC      ?C0026
+                                           ; SOURCE LINE # 119
+0012         ?C0025:
+0012 0500        R     INC     j
+0014 E500        R     MOV     A,j
+0016 C3                CLR     C
+0017 9462              SUBB    A,#062H
+0019 40E8              JC      ?C0023
+001B         ?C0024:
+                                           ; SOURCE LINE # 120
+001B 7F32              MOV     R7,#032H
+001D 7E00              MOV     R6,#00H
+001F 120000      R     LCALL   _delay_ms
+                                           ; SOURCE LINE # 121
+0022 E500        R     MOV     A,nf1
+0024 2500        R     ADD     A,sf2
+0026 5403              ANL     A,#03H
+0028 F500        R     MOV     nf1,A
+                                           ; SOURCE LINE # 122
+002A E500        R     MOV     A,ef1
+002C 2500        R     ADD     A,sf2
+002E 5403              ANL     A,#03H
+0030 F500        R     MOV     ef1,A
+                                           ; SOURCE LINE # 123
+0032 E500        R     MOV     A,sf1
+0034 2500        R     ADD     A,sf2
+0036 5403              ANL     A,#03H
+0038 F500        R     MOV     sf1,A
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 10  
+
+                                           ; SOURCE LINE # 124
+003A E500        R     MOV     A,wf1
+003C 2500        R     ADD     A,sf2
+003E 5403              ANL     A,#03H
+0040 F500        R     MOV     wf1,A
+                                           ; SOURCE LINE # 125
+0042 22                RET     
+             ; FUNCTION r180 (END)
+
+             ; FUNCTION RM (BEGIN)
+                                           ; SOURCE LINE # 127
+                                           ; SOURCE LINE # 128
+                                           ; SOURCE LINE # 129
+0000 E4                CLR     A
+0001 F500        R     MOV     j,A
+0003         ?C0030:
+                                           ; SOURCE LINE # 130
+                                           ; SOURCE LINE # 131
+0003 E4                CLR     A
+0004 F500        R     MOV     i,A
+0006         ?C0033:
+                                           ; SOURCE LINE # 132
+                                           ; SOURCE LINE # 133
+0006 E500        R     MOV     A,i
+0008 900000      R     MOV     DPTR,#forward
+000B 93                MOVC    A,@A+DPTR
+000C 44F0              ORL     A,#0F0H
+                                           ; SOURCE LINE # 134
+000E 120000      R     LCALL   L?0108
+                                           ; SOURCE LINE # 135
+0011 0500        R     INC     i
+0013 E500        R     MOV     A,i
+0015 C3                CLR     C
+0016 9408              SUBB    A,#08H
+0018 40EC              JC      ?C0033
+                                           ; SOURCE LINE # 136
+001A         ?C0032:
+001A 0500        R     INC     j
+001C E500        R     MOV     A,j
+001E C3                CLR     C
+001F 9401              SUBB    A,#01H
+0021 40E0              JC      ?C0030
+                                           ; SOURCE LINE # 137
+0023         ?C0036:
+0023 22                RET     
+             ; FUNCTION RM (END)
+
+             ; FUNCTION LM (BEGIN)
+                                           ; SOURCE LINE # 139
+                                           ; SOURCE LINE # 140
+                                           ; SOURCE LINE # 141
+0000 E4                CLR     A
+0001 F500        R     MOV     j,A
+0003         ?C0037:
+                                           ; SOURCE LINE # 142
+                                           ; SOURCE LINE # 143
+0003 E4                CLR     A
+0004 F500        R     MOV     i,A
+0006         ?C0040:
+                                           ; SOURCE LINE # 144
+                                           ; SOURCE LINE # 145
+0006 E500        R     MOV     A,i
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 11  
+
+0008 900000      R     MOV     DPTR,#reverse
+000B 93                MOVC    A,@A+DPTR
+000C 440F              ORL     A,#0FH
+                                           ; SOURCE LINE # 146
+000E 120000      R     LCALL   L?0108
+                                           ; SOURCE LINE # 147
+0011 0500        R     INC     i
+0013 E500        R     MOV     A,i
+0015 C3                CLR     C
+0016 9408              SUBB    A,#08H
+0018 40EC              JC      ?C0040
+                                           ; SOURCE LINE # 148
+001A         ?C0039:
+001A 0500        R     INC     j
+001C E500        R     MOV     A,j
+001E C3                CLR     C
+001F 9401              SUBB    A,#01H
+0021 40E0              JC      ?C0037
+                                           ; SOURCE LINE # 149
+0023         ?C0043:
+0023 22                RET     
+             ; FUNCTION LM (END)
+
+             ; FUNCTION gf (BEGIN)
+                                           ; SOURCE LINE # 151
+                                           ; SOURCE LINE # 152
+                                           ; SOURCE LINE # 153
+0000 E4                CLR     A
+0001 F500        R     MOV     j,A
+0003         ?C0044:
+                                           ; SOURCE LINE # 154
+                                           ; SOURCE LINE # 155
+0003 300010      R     JNB     irLU,?C0047
+0006 20000D      R     JB      irC,?C0047
+                                           ; SOURCE LINE # 156
+0009         ?C0048:
+                                           ; SOURCE LINE # 157
+0009 300038      R     JNB     irLU,?C0046
+000C 200035      R     JB      irC,?C0046
+                                           ; SOURCE LINE # 158
+000F 120000      R     LCALL   RM
+                                           ; SOURCE LINE # 159
+0012 0500        R     INC     j
+0014 80F3              SJMP    ?C0048
+                                           ; SOURCE LINE # 160
+0016         ?C0047:
+                                           ; SOURCE LINE # 161
+0016 300010      R     JNB     irRU,?C0051
+0019 20000D      R     JB      irC,?C0051
+                                           ; SOURCE LINE # 162
+001C         ?C0052:
+                                           ; SOURCE LINE # 163
+001C 300025      R     JNB     irRU,?C0046
+001F 200022      R     JB      irC,?C0046
+                                           ; SOURCE LINE # 164
+0022 120000      R     LCALL   LM
+                                           ; SOURCE LINE # 165
+0025 0500        R     INC     j
+0027 80F3              SJMP    ?C0052
+                                           ; SOURCE LINE # 166
+0029         ?C0051:
+                                           ; SOURCE LINE # 168
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 12  
+
+0029 E4                CLR     A
+002A F500        R     MOV     i,A
+002C         ?C0055:
+                                           ; SOURCE LINE # 169
+                                           ; SOURCE LINE # 170
+002C E500        R     MOV     A,i
+002E 900000      R     MOV     DPTR,#f
+0031 93                MOVC    A,@A+DPTR
+0032 F590              MOV     P1,A
+                                           ; SOURCE LINE # 171
+0034 7F02              MOV     R7,#02H
+0036 7E00              MOV     R6,#00H
+0038 120000      R     LCALL   _delay_ms
+                                           ; SOURCE LINE # 172
+003B 0500        R     INC     i
+003D E500        R     MOV     A,i
+003F C3                CLR     C
+0040 9408              SUBB    A,#08H
+0042 40E8              JC      ?C0055
+                                           ; SOURCE LINE # 173
+0044         ?C0046:
+0044 0500        R     INC     j
+0046 E500        R     MOV     A,j
+0048 C3                CLR     C
+0049 946E              SUBB    A,#06EH
+004B 40B6              JC      ?C0044
+004D         ?C0045:
+                                           ; SOURCE LINE # 174
+004D E500        R     MOV     A,nf1
+004F 7002              JNZ     ?C0058
+                                           ; SOURCE LINE # 175
+0051 0500        R     INC     y
+0053         ?C0058:
+                                           ; SOURCE LINE # 176
+0053 E500        R     MOV     A,nf1
+0055 B40102            CJNE    A,#01H,?C0059
+                                           ; SOURCE LINE # 177
+0058 0500        R     INC     x
+005A         ?C0059:
+                                           ; SOURCE LINE # 178
+005A E500        R     MOV     A,nf1
+005C B40202            CJNE    A,#02H,?C0060
+                                           ; SOURCE LINE # 179
+005F 1500        R     DEC     y
+0061         ?C0060:
+                                           ; SOURCE LINE # 180
+0061 E500        R     MOV     A,nf1
+0063 B40302            CJNE    A,#03H,?C0061
+                                           ; SOURCE LINE # 181
+0066 1500        R     DEC     x
+0068         ?C0061:
+                                           ; SOURCE LINE # 182
+0068 7FC8              MOV     R7,#0C8H
+006A 7E00              MOV     R6,#00H
+006C 020000      R     LJMP    _delay_ms
+             ; FUNCTION gf (END)
+
+             ; FUNCTION _setTime2 (BEGIN)
+                                           ; SOURCE LINE # 185
+0000 8E00        R     MOV     us,R6
+0002 8F00        R     MOV     us+01H,R7
+                                           ; SOURCE LINE # 186
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 13  
+
+                                           ; SOURCE LINE # 187
+0004 AB07              MOV     R3,AR7
+0006 AA06              MOV     R2,AR6
+0008 C3                CLR     C
+0009 74FF              MOV     A,#0FFH
+000B 9B                SUBB    A,R3
+000C FF                MOV     R7,A
+000D 74FF              MOV     A,#0FFH
+000F 9A                SUBB    A,R2
+0010 FE                MOV     R6,A
+0011 E4                CLR     A
+0012 9400              SUBB    A,#00H
+0014 FD                MOV     R5,A
+0015 E4                CLR     A
+0016 9400              SUBB    A,#00H
+0018 FC                MOV     R4,A
+0019 E4                CLR     A
+001A FB                MOV     R3,A
+001B 7A01              MOV     R2,#01H
+001D F9                MOV     R1,A
+001E F8                MOV     R0,A
+001F 120000      E     LCALL   ?C?SLDIV
+0022 8FCD              MOV     TH2,R7
+                                           ; SOURCE LINE # 188
+0024 AE00        R     MOV     R6,us
+0026 AF00        R     MOV     R7,us+01H
+0028 AB07              MOV     R3,AR7
+002A AA06              MOV     R2,AR6
+002C E4                CLR     A
+002D C3                CLR     C
+002E 9B                SUBB    A,R3
+002F FF                MOV     R7,A
+0030 E4                CLR     A
+0031 9A                SUBB    A,R2
+0032 FE                MOV     R6,A
+0033 7401              MOV     A,#01H
+0035 9400              SUBB    A,#00H
+0037 FD                MOV     R5,A
+0038 E4                CLR     A
+0039 9400              SUBB    A,#00H
+003B FC                MOV     R4,A
+003C E4                CLR     A
+003D FB                MOV     R3,A
+003E 7A01              MOV     R2,#01H
+0040 F9                MOV     R1,A
+0041 F8                MOV     R0,A
+0042 120000      E     LCALL   ?C?SLDIV
+0045 8FCB              MOV     RCAP2H,R7
+                                           ; SOURCE LINE # 189
+0047 AE00        R     MOV     R6,us
+0049 AF00        R     MOV     R7,us+01H
+004B AB07              MOV     R3,AR7
+004D AA06              MOV     R2,AR6
+004F E4                CLR     A
+0050 C3                CLR     C
+0051 9B                SUBB    A,R3
+0052 FF                MOV     R7,A
+0053 E4                CLR     A
+0054 9A                SUBB    A,R2
+0055 FE                MOV     R6,A
+0056 7401              MOV     A,#01H
+0058 9400              SUBB    A,#00H
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 14  
+
+005A FD                MOV     R5,A
+005B E4                CLR     A
+005C 9400              SUBB    A,#00H
+005E FC                MOV     R4,A
+005F E4                CLR     A
+0060 FB                MOV     R3,A
+0061 7A01              MOV     R2,#01H
+0063 F9                MOV     R1,A
+0064 F8                MOV     R0,A
+0065 120000      E     LCALL   ?C?SLDIV
+0068 AF03              MOV     R7,AR3
+006A 8FCC              MOV     TL2,R7
+                                           ; SOURCE LINE # 190
+006C 8FCA              MOV     RCAP2L,R7
+                                           ; SOURCE LINE # 191
+006E 22                RET     
+             ; FUNCTION _setTime2 (END)
+
+             ; FUNCTION initTime2 (BEGIN)
+                                           ; SOURCE LINE # 192
+                                           ; SOURCE LINE # 193
+                                           ; SOURCE LINE # 194
+0000 D2AF              SETB    EA
+                                           ; SOURCE LINE # 195
+0002 D2AD              SETB    ET2
+                                           ; SOURCE LINE # 196
+0004 7F88              MOV     R7,#088H
+0006 7E13              MOV     R6,#013H
+0008 120000      R     LCALL   _setTime2
+                                           ; SOURCE LINE # 197
+000B D2CA              SETB    TR2
+                                           ; SOURCE LINE # 198
+000D 22                RET     
+             ; FUNCTION initTime2 (END)
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 199
+                                           ; SOURCE LINE # 200
+                                           ; SOURCE LINE # 201
+0000 120000      R     LCALL   initTime2
+0003         ?C0065:
+                                           ; SOURCE LINE # 203
+                                           ; SOURCE LINE # 204
+                                           ; SOURCE LINE # 225
+0003 120000      R     LCALL   gf
+                                           ; SOURCE LINE # 226
+0006 200003      R     JB      irR,?C0067
+                                           ; SOURCE LINE # 227
+                                           ; SOURCE LINE # 228
+0009 120000      R     LCALL   tr
+                                           ; SOURCE LINE # 229
+000C         ?C0067:
+                                           ; SOURCE LINE # 230
+000C 200009      R     JB      irL,?C0068
+000F 300006      R     JNB     irC,?C0068
+0012 300003      R     JNB     irR,?C0068
+                                           ; SOURCE LINE # 231
+0015 120000      R     LCALL   tl
+0018         ?C0068:
+                                           ; SOURCE LINE # 232
+0018 300009      R     JNB     irL,?C0069
+001B 300006      R     JNB     irC,?C0069
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 15  
+
+001E 300003      R     JNB     irR,?C0069
+                                           ; SOURCE LINE # 233
+                                           ; SOURCE LINE # 234
+0021 120000      R     LCALL   r180
+                                           ; SOURCE LINE # 235
+0024         ?C0069:
+                                           ; SOURCE LINE # 236
+0024 E500        R     MOV     A,x
+0026 B407DA            CJNE    A,#07H,?C0065
+0029 E500        R     MOV     A,y
+002B 70D6              JNZ     ?C0065
+002D         ?C0071:
+                                           ; SOURCE LINE # 237
+                                           ; SOURCE LINE # 238
+                                           ; SOURCE LINE # 240
+002D 120000      R     LCALL   gf
+                                           ; SOURCE LINE # 241
+0030 200003      R     JB      irL,?C0073
+                                           ; SOURCE LINE # 242
+                                           ; SOURCE LINE # 243
+0033 120000      R     LCALL   tl
+                                           ; SOURCE LINE # 244
+0036         ?C0073:
+                                           ; SOURCE LINE # 245
+0036 300009      R     JNB     irL,?C0074
+0039 300006      R     JNB     irC,?C0074
+003C 200003      R     JB      irR,?C0074
+                                           ; SOURCE LINE # 246
+003F 120000      R     LCALL   tr
+0042         ?C0074:
+                                           ; SOURCE LINE # 247
+0042 300009      R     JNB     irL,?C0075
+0045 300006      R     JNB     irC,?C0075
+0048 300003      R     JNB     irR,?C0075
+                                           ; SOURCE LINE # 248
+                                           ; SOURCE LINE # 249
+004B 120000      R     LCALL   r180
+                                           ; SOURCE LINE # 250
+004E         ?C0075:
+                                           ; SOURCE LINE # 251
+004E E500        R     MOV     A,x
+0050 70DB              JNZ     ?C0071
+0052 E500        R     MOV     A,y
+0054 70D7              JNZ     ?C0071
+0056         ?C0077:
+                                           ; SOURCE LINE # 252
+0056 C2B7              CLR     beep
+0058         ?C0079:
+0058 80FE              SJMP    ?C0079
+             ; FUNCTION main (END)
+
+             ; FUNCTION time2 (BEGIN)
+0000 C0E0              PUSH    ACC
+0002 C0D0              PUSH    PSW
+0004 75D000            MOV     PSW,#00H
+0007 C007              PUSH    AR7
+                                           ; SOURCE LINE # 256
+                                           ; SOURCE LINE # 259
+0009 C2CF              CLR     TF2
+                                           ; SOURCE LINE # 260
+000B 200011      R     JB      ir,?C0082
+                                           ; SOURCE LINE # 261
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 16  
+
+000E E500        R     MOV     A,a
+0010 13                RRC     A
+0011 92E8              MOV     A0,C
+0013 E500        R     MOV     A,a
+0015 A2E1              MOV     C,ACC.1
+0017 92A0              MOV     A1,C
+0019 A2E2              MOV     C,ACC.2
+001B 92A7              MOV     A2,C
+001D 804F              SJMP    ?C0086
+001F         ?C0082:
+                                           ; SOURCE LINE # 263
+                                           ; SOURCE LINE # 264
+001F AF00        R     MOV     R7,a
+0021 0500        R     INC     a
+0023 EF                MOV     A,R7
+0024 14                DEC     A
+0025 6018              JZ      ?C0091
+0027 14                DEC     A
+0028 6020              JZ      ?C0094
+002A 14                DEC     A
+002B 6028              JZ      ?C0097
+002D 14                DEC     A
+002E 6030              JZ      ?C0100
+0030 2404              ADD     A,#04H
+0032 7037              JNZ     ?C0103
+                                           ; SOURCE LINE # 265
+                                           ; SOURCE LINE # 266
+0034         ?C0088:
+0034 20A104            JB      irR1,?C0089
+0037 D200        R     SETB    irC
+0039 8033              SJMP    ?C0086
+003B         ?C0089:
+003B C200        R     CLR     irC
+003D 802F              SJMP    ?C0086
+                                           ; SOURCE LINE # 267
+003F         ?C0091:
+003F 20A204            JB      irR2,?C0092
+0042 D200        R     SETB    irLU
+0044 8028              SJMP    ?C0086
+0046         ?C0092:
+0046 C200        R     CLR     irLU
+0048 8024              SJMP    ?C0086
+                                           ; SOURCE LINE # 268
+004A         ?C0094:
+004A 20A304            JB      irR3,?C0095
+004D D200        R     SETB    irL
+004F 801D              SJMP    ?C0086
+0051         ?C0095:
+0051 C200        R     CLR     irL
+0053 8019              SJMP    ?C0086
+                                           ; SOURCE LINE # 269
+0055         ?C0097:
+0055 20A404            JB      irR4,?C0098
+0058 D200        R     SETB    irR
+005A 8012              SJMP    ?C0086
+005C         ?C0098:
+005C C200        R     CLR     irR
+005E 800E              SJMP    ?C0086
+                                           ; SOURCE LINE # 270
+0060         ?C0100:
+0060 20A504            JB      irR5,?C0101
+0063 D200        R     SETB    irRU
+C51 COMPILER V9.53.0.0   T2                                                                01/05/2019 18:58:49 PAGE 17  
+
+0065 8007              SJMP    ?C0086
+0067         ?C0101:
+0067 C200        R     CLR     irRU
+0069 8003              SJMP    ?C0086
+                                           ; SOURCE LINE # 271
+006B         ?C0103:
+006B 750000      R     MOV     a,#00H
+                                           ; SOURCE LINE # 272
+                                           ; SOURCE LINE # 273
+006E         ?C0086:
+                                           ; SOURCE LINE # 274
+006E B200        R     CPL     ir
+                                           ; SOURCE LINE # 275
+0070 D007              POP     AR7
+0072 D0D0              POP     PSW
+0074 D0E0              POP     ACC
+0076 32                RETI    
+             ; FUNCTION time2 (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    791    ----
+   CONSTANT SIZE    =     40    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     77       2
+   IDATA SIZE       =    102    ----
+   BIT SIZE         =      6    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,65 @@
+C51 COMPILER V9.53.0.0   8                                                                 12/23/2018 14:40:49 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE 8
+OBJECT MODULE PLACED IN 8.OBJ
+COMPILER INVOKED BY: E:\keil555\C51\BIN\C51.EXE 8.c LARGE OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <intrins.h>
+   3          #define uchar unsigned char;
+   4          #define uint unsigned int;
+   5          sbit key8=P3^2;
+   6          sbit Beep8=P2^4;
+   7          void delay_ms8(unsigned int ms)
+   8          {
+   9   1        unsigned char k;
+  10   1        while(ms--)
+  11   1        {
+  12   2          for(k=0;k<114;k++);
+  13   2        }
+  14   1      }
+  15          
+  16          void keyscan8()
+  17          {
+  18   1        if(key8==0)
+  19   1        {
+  20   2          delay_ms8(10);
+  21   2          if(key8==0)
+  22   2          {
+  23   3            delay_ms8(10);
+  24   3            if(key8==0)
+  25   3            {
+  26   4              Beep8=0;
+  27   4            }
+  28   3            while(!key8);
+  29   3            delay_ms8(10);
+  30   3            while(!key8);
+  31   3          }
+  32   2          else
+  33   2            Beep8=1;
+  34   2        }
+  35   1      }
+  36          void h()
+  37          {
+  38   1        while(1)
+  39   1        {
+  40   2          keyscan8();
+  41   2        }
+  42   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     62    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

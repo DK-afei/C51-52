@@ -1,0 +1,245 @@
+C51 COMPILER V9.53.0.0   TEST                                                              12/23/2018 16:57:33 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE TEST
+OBJECT MODULE PLACED IN test.OBJ
+COMPILER INVOKED BY: E:\keil555\C51\BIN\C51.EXE test.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND CODE TABS(2)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <mouse.h>
+   3          #define uchar unsigned char
+   4          #define uint unsigned int
+   5          sbit beep=P3^7;
+   6          uint flag=0;
+   7          void setTime2(uint us)
+   8          {
+   9   1        TH2=(65535-us)/256;
+  10   1        RCAP2H=(65536-us)/256;
+  11   1        TL2=(65536-us)%256;
+  12   1        RCAP2L=(65536-us)%256;
+  13   1      }
+  14          void initTime2()
+  15          {
+  16   1        EA=1;
+  17   1        ET2=1;
+  18   1        setTime2(5000);
+  19   1        TR2=1;
+  20   1      }
+  21          void main()
+  22          {
+  23   1        initTime2();
+  24   1        while(1){
+  25   2          if(flag==0)
+  26   2          beep=1;
+  27   2          else
+  28   2            beep=0;
+  29   2        };
+  30   1      }
+  31          void time2() interrupt 5
+  32          {
+  33   1        static bit ir=0;
+  34   1        TF2=0;
+  35   1        if(!ir)
+  36   1          MOUSE_IR_ON(0);
+  37   1        else
+  38   1        {
+  39   2          if(irR1)
+  40   2          {
+  41   3            irC=0;
+  42   3            flag=0;
+  43   3          }
+  44   2          else
+  45   2          {
+  46   3            irC=1;
+  47   3            flag=1;
+  48   3          }
+  49   2        }
+  50   1        ir=~ir;
+  51   1      }
+C51 COMPILER V9.53.0.0   TEST                                                              12/23/2018 16:57:33 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION _setTime2 (BEGIN)
+                                           ; SOURCE LINE # 7
+0000 8E00        R     MOV     us,R6
+0002 8F00        R     MOV     us+01H,R7
+                                           ; SOURCE LINE # 8
+                                           ; SOURCE LINE # 9
+0004 AB07              MOV     R3,AR7
+0006 AA06              MOV     R2,AR6
+0008 C3                CLR     C
+0009 74FF              MOV     A,#0FFH
+000B 9B                SUBB    A,R3
+000C FF                MOV     R7,A
+000D 74FF              MOV     A,#0FFH
+000F 9A                SUBB    A,R2
+0010 FE                MOV     R6,A
+0011 E4                CLR     A
+0012 9400              SUBB    A,#00H
+0014 FD                MOV     R5,A
+0015 E4                CLR     A
+0016 9400              SUBB    A,#00H
+0018 FC                MOV     R4,A
+0019 E4                CLR     A
+001A FB                MOV     R3,A
+001B 7A01              MOV     R2,#01H
+001D F9                MOV     R1,A
+001E F8                MOV     R0,A
+001F 120000      E     LCALL   ?C?SLDIV
+0022 8FCD              MOV     TH2,R7
+                                           ; SOURCE LINE # 10
+0024 AE00        R     MOV     R6,us
+0026 AF00        R     MOV     R7,us+01H
+0028 AB07              MOV     R3,AR7
+002A AA06              MOV     R2,AR6
+002C E4                CLR     A
+002D C3                CLR     C
+002E 9B                SUBB    A,R3
+002F FF                MOV     R7,A
+0030 E4                CLR     A
+0031 9A                SUBB    A,R2
+0032 FE                MOV     R6,A
+0033 7401              MOV     A,#01H
+0035 9400              SUBB    A,#00H
+0037 FD                MOV     R5,A
+0038 E4                CLR     A
+0039 9400              SUBB    A,#00H
+003B FC                MOV     R4,A
+003C E4                CLR     A
+003D FB                MOV     R3,A
+003E 7A01              MOV     R2,#01H
+0040 F9                MOV     R1,A
+0041 F8                MOV     R0,A
+0042 120000      E     LCALL   ?C?SLDIV
+0045 8FCB              MOV     RCAP2H,R7
+                                           ; SOURCE LINE # 11
+0047 AE00        R     MOV     R6,us
+0049 AF00        R     MOV     R7,us+01H
+004B AB07              MOV     R3,AR7
+004D AA06              MOV     R2,AR6
+004F E4                CLR     A
+C51 COMPILER V9.53.0.0   TEST                                                              12/23/2018 16:57:33 PAGE 3   
+
+0050 C3                CLR     C
+0051 9B                SUBB    A,R3
+0052 FF                MOV     R7,A
+0053 E4                CLR     A
+0054 9A                SUBB    A,R2
+0055 FE                MOV     R6,A
+0056 7401              MOV     A,#01H
+0058 9400              SUBB    A,#00H
+005A FD                MOV     R5,A
+005B E4                CLR     A
+005C 9400              SUBB    A,#00H
+005E FC                MOV     R4,A
+005F E4                CLR     A
+0060 FB                MOV     R3,A
+0061 7A01              MOV     R2,#01H
+0063 F9                MOV     R1,A
+0064 F8                MOV     R0,A
+0065 120000      E     LCALL   ?C?SLDIV
+0068 AF03              MOV     R7,AR3
+006A 8FCC              MOV     TL2,R7
+                                           ; SOURCE LINE # 12
+006C 8FCA              MOV     RCAP2L,R7
+                                           ; SOURCE LINE # 13
+006E 22                RET     
+             ; FUNCTION _setTime2 (END)
+
+             ; FUNCTION initTime2 (BEGIN)
+                                           ; SOURCE LINE # 14
+                                           ; SOURCE LINE # 15
+                                           ; SOURCE LINE # 16
+0000 D2AF              SETB    EA
+                                           ; SOURCE LINE # 17
+0002 D2AD              SETB    ET2
+                                           ; SOURCE LINE # 18
+0004 7F88              MOV     R7,#088H
+0006 7E13              MOV     R6,#013H
+0008 120000      R     LCALL   _setTime2
+                                           ; SOURCE LINE # 19
+000B D2CA              SETB    TR2
+                                           ; SOURCE LINE # 20
+000D 22                RET     
+             ; FUNCTION initTime2 (END)
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 21
+                                           ; SOURCE LINE # 22
+                                           ; SOURCE LINE # 23
+0000 120000      R     LCALL   initTime2
+0003         ?C0003:
+                                           ; SOURCE LINE # 24
+                                           ; SOURCE LINE # 25
+0003 E500        R     MOV     A,flag+01H
+0005 4500        R     ORL     A,flag
+0007 7004              JNZ     ?C0005
+                                           ; SOURCE LINE # 26
+0009 D2B7              SETB    beep
+000B 80F6              SJMP    ?C0003
+000D         ?C0005:
+                                           ; SOURCE LINE # 28
+000D C2B7              CLR     beep
+                                           ; SOURCE LINE # 29
+000F 80F2              SJMP    ?C0003
+C51 COMPILER V9.53.0.0   TEST                                                              12/23/2018 16:57:33 PAGE 4   
+
+             ; FUNCTION main (END)
+
+             ; FUNCTION time2 (BEGIN)
+                                           ; SOURCE LINE # 31
+                                           ; SOURCE LINE # 34
+0000 C2CF              CLR     TF2
+                                           ; SOURCE LINE # 35
+0002 200008      R     JB      ir,?C0008
+                                           ; SOURCE LINE # 36
+0005 C2E8              CLR     A0
+0007 C2A0              CLR     A1
+0009 C2A7              CLR     A2
+000B 8015              SJMP    ?C0012
+000D         ?C0008:
+                                           ; SOURCE LINE # 38
+                                           ; SOURCE LINE # 39
+000D 30A10A            JNB     irR1,?C0013
+                                           ; SOURCE LINE # 40
+                                           ; SOURCE LINE # 41
+0010 C200        R     CLR     irC
+                                           ; SOURCE LINE # 42
+0012 750000      R     MOV     flag,#00H
+0015 750000      R     MOV     flag+01H,#00H
+                                           ; SOURCE LINE # 43
+0018 8008              SJMP    ?C0012
+001A         ?C0013:
+                                           ; SOURCE LINE # 45
+                                           ; SOURCE LINE # 46
+001A D200        R     SETB    irC
+                                           ; SOURCE LINE # 47
+001C 750000      R     MOV     flag,#00H
+001F 750001      R     MOV     flag+01H,#01H
+                                           ; SOURCE LINE # 48
+                                           ; SOURCE LINE # 49
+0022         ?C0012:
+                                           ; SOURCE LINE # 50
+0022 B200        R     CPL     ir
+                                           ; SOURCE LINE # 51
+0024 32                RETI    
+             ; FUNCTION time2 (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    179    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      6    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
